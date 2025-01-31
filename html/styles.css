@@ -1,0 +1,42 @@
+body {
+  background-image: url("../imgs/background.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+#reset-game img {
+  width: 2.5rem;
+}
+
+#game-board img {
+  width: 2.5rem;
+}
+
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(10);
+  grid-gap: 0.1rem;
+  margin-top: 1rem;
+  background-image: url("../imgs/grass.webp");
+  background-repeat: repeat;
+  background-size: auto;
+}
