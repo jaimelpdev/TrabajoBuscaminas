@@ -17,3 +17,4 @@
 # Dificultades:
     - Dificultades predefinidas: serán 3 dificultades las cuales dependerán del numero de casillas que hay y cantidad de minas
     - Tipos de dificultad: Según temática llevarán unos nombres u otros
+    - Principiante: 10x10
