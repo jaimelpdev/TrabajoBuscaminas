@@ -2,9 +2,9 @@
  
 # Inspiraciones:
     - Imagen de tablero:
-    https://www.google.com/url?sa=i&url=https%3A%2F%2Fbuscaminas.uptodown.com%2Fwindows&psig=AOvVaw0_DnKI1uG6U5GhkwzeA7MN&ust=1738350729106000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCK0KKTnosDFQAAAAAdAAAAABAT
-    https://www.google.com/url?sa=i&url=https%3A%2F%2Fjugabet.cl%2Fes%2Fpage%2Fjugar-al-buscaminas&psig=AOvVaw0_DnKI1uG6U5GhkwzeA7MN&ust=1738350729106000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLCK0KKTnosDFQAAAAAdAAAAABBK
-
+    https://img.utdstc.com/screen/24d/a0a/24da0a5095514a5aed7d76797aea58b5d397a9f8f9a0713dc39ce3e1b0656bc2:600
+    https://lh5.googleusercontent.com/proxy/m8absyVujYpvM4WUp6WW-TJsy1mkcGEFcAy9ZWrQLWfLAXupp7nPjyB0Qs8QhOTgWdLnZtlMZtgFrE5xMbj0zYhDNXZF_qiVqhyenWob6-omLB3qsyTs27zU2or42-b0_Ak
+    https://lh7-us.googleusercontent.com/zXEmfwureYySSfHK7pQgdffxZwhtTF3DWShFZPEbKZcmPA5_fXBr7bLaA7N-RTKb9vVZzR0VZ5oa8evIhCKrzcbLRRI3W03kZwGGt0en_E8qWHMYOsXV3HjN95zkugt9-tmFBzRWNbQwYpE-6tA6gfs
 
     - Modos de juego:
          Encontrar las minas: Es decir en vez de hacer click derecho encima de las minas, habrá que hacerlo encima de las casillas vaciás, habrían más minas.
