@@ -25,7 +25,7 @@ h1 {
 }
 
 #reset-game img {
-  width: 2rem;
+  width: 3rem;
 }
 
 #game-board {
@@ -36,13 +36,11 @@ h1 {
   background-image: url("../imgs/grass.webp");
   background-repeat: repeat;
   background-size: 10% 10%;
+  border: 1.5rem solid #6b533e;
 }
 
 .cell {
-  width: 67px;
-  height: 67px;
-  display: flex;
-  align-items: center; 
-  justify-content: center; 
-  border: 1px solid #ccc; 
+  width: 4rem;
+  height: 4rem;
+  display: inline-block;
 }
