@@ -98,7 +98,7 @@ function revealCell(row, col) {
     revealed[row][col] = true;
     const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
     if (board[row][col] === 'M') {
-        cell.style.backgroundImage = "url('../imgs/mine.webp')";
+        cell.style.backgroundImage = "url('../imgs/tntoverstone.webp.webp')";
         alert("Game Over!");
         initGame(); // Restart the game
     } else {
