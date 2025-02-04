@@ -111,10 +111,6 @@ function revealCell(row, col) {
     }
     revealed[row][col] = true;
     const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
-<<<<<<< Updated upstream
-    if (board[row][col] === 'M') {
-        cell.style.backgroundImage = "url('../imgs/mine.webp')";
-=======
     if (board[row][col] === "M") {
       console.log("Game Over! Setting TNT image.");
       cell.style.backgroundImage = "none"; // Remove the grass image
@@ -122,7 +118,6 @@ function revealCell(row, col) {
       cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
       cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
       setTimeout(() => {
->>>>>>> Stashed changes
         alert("Game Over!");
         initGame();
       }, 100); // Delay the alert by 100 milliseconds to appear after the TNT image
