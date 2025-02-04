@@ -7,6 +7,7 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
+  height: 100vh; 
 }
 
 #game-container {
@@ -38,7 +39,10 @@ h1 {
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
-  display: inline-block;
+  width: 67px;
+  height: 67px;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  border: 1px solid #ccc; 
 }
