@@ -90,13 +90,12 @@ function toggleFlag(row, col) {
   flagged[row][col] = !flagged[row][col];
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
-    cell.style.backgroundImage = "url('../imgs/diamond_pickaxe.webp')";
+    cell.style.backgroundImage = "url('../imgs/flag.webp')";
   } else {
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   }
 }
 
-// Function to reveal a cell
 // Function to reveal a cell
 function revealCell(row, col) {
     if (
@@ -114,14 +113,39 @@ function revealCell(row, col) {
     if (board[row][col] === "M") {
       console.log("Game Over! Setting TNT image.");
       cell.style.backgroundImage = "none"; // Remove the grass image
-      cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image
+      cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
       cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
       cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
-      setTimeout(() => {
-        alert("Game Over!");
-        initGame();
-      }, 100); // Delay the alert by 100 milliseconds to appear after the TNT image
   
+      // Reveal all mines one by one
+      let mineIndex = 0;
+      const mines = [];
+      for (let r = 0; r < 10; r++) {
+        for (let c = 0; c < 10; c++) {
+          if (board[r][c] === "M" && !(r === row && c === col)) {
+            mines.push({ r, c });
+          }
+        }
+      }
+  
+      const revealNextMine = () => {
+        if (mineIndex < mines.length) {
+          const { r, c } = mines[mineIndex];
+          const mineCell = document.querySelector(`[data-row='${r}'][data-col='${c}']`);
+          mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
+          mineCell.style.backgroundSize = "cover";
+          mineCell.style.backgroundRepeat = "no-repeat";
+          mineIndex++;
+          setTimeout(revealNextMine, 500); // Delay between revealing each mine
+        } else {
+          setTimeout(() => {
+            alert("Game Over!");
+            initGame();
+          }, 200); // Delay the alert until all mines are revealed
+        }
+      };
+  
+      revealNextMine();
     } else {
       cell.style.backgroundImage = "url('../imgs/rock.webp')";
       cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
