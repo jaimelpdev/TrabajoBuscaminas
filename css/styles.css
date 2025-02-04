@@ -40,7 +40,18 @@ h1 {
 }
 
 .cell {
+<<<<<<< Updated upstream
   width: 4rem;
   height: 4rem;
   display: inline-block;
 }
+=======
+  width: 67px;
+  height: 67px;
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  background-size: cover;
+  border: 1px solid #ccc; 
+}
+>>>>>>> Stashed changes
