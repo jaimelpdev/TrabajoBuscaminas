@@ -1,5 +1,4 @@
 let minas = 10;
-let banderasRestantes = minas; // Variable para rastrear el número de banderas restantes
 let board = Array(10)
   .fill(0)
   .map(() => Array(10).fill(0));
@@ -91,19 +90,12 @@ function handleCellRightClick(event) {
 // Function to toggle flag on a cell
 function toggleFlag(row, col) {
   if (revealed[row][col]) return;
+  flagged[row][col] = !flagged[row][col];
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
-    flagged[row][col] = false;
-    banderasRestantes++;
-    cell.style.backgroundImage = "url('../imgs/grass.webp')";
+    cell.style.backgroundImage = "url('../imgs/flag.webp')";
   } else {
-    if (banderasRestantes > 0) {
-      flagged[row][col] = true;
-      banderasRestantes--;
-      cell.style.backgroundImage = "url('../imgs/flag.webp')";
-    } else {
-      alert("No more flags available!");
-    }
+    cell.style.backgroundImage = "url('../imgs/grass.webp')";
   }
 }
 
@@ -186,7 +178,6 @@ function initGame() {
   flagged = Array(10)
     .fill(0)
     .map(() => Array(10).fill(false));
-  banderasRestantes = minas; // Reset the number of remaining flags
   gameOver = false; // Reset game over state
   createBoard();
   placeMines();
