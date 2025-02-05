@@ -7,7 +7,7 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  height: 100vh; 
+  height: 100vh;
 }
 
 #game-container {
@@ -42,8 +42,8 @@ h1 {
   width: 67px;
   height: 67px;
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   background-size: cover;
-  border: 1px solid #ccc; 
+  border: 1px solid #ccc;
 }

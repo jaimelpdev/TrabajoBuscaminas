@@ -8,6 +8,7 @@ let revealed = Array(10)
 let flagged = Array(10)
   .fill(0)
   .map(() => Array(10).fill(false));
+let gameOver = false; // Variable to track game over state
 
 // A function that creates the board 10x10
 function createBoard() {
@@ -69,6 +70,7 @@ function countMines() {
 
 // Function to handle cell click
 function handleCellClick(event) {
+  if (gameOver) return; // Prevent clicks if game is over
   const row = parseInt(event.target.dataset.row);
   const col = parseInt(event.target.dataset.col);
   if (!flagged[row][col]) {
@@ -79,6 +81,7 @@ function handleCellClick(event) {
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
+  if (gameOver) return; // Prevent right-clicks if game is over
   const row = parseInt(event.target.dataset.row);
   const col = parseInt(event.target.dataset.col);
   toggleFlag(row, col);
@@ -90,52 +93,79 @@ function toggleFlag(row, col) {
   flagged[row][col] = !flagged[row][col];
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
-    cell.style.backgroundImage = "url('../imgs/diamond_pickaxe.webp')";
+    cell.style.backgroundImage = "url('../imgs/flag.webp')";
   } else {
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   }
 }
 
 // Function to reveal a cell
-// Function to reveal a cell
 function revealCell(row, col) {
-    if (
-      row < 0 ||
-      row >= 10 ||
-      col < 0 ||
-      col >= 10 ||
-      revealed[row][col] ||
-      flagged[row][col]
-    ) {
-      return;
+  if (
+    row < 0 ||
+    row >= 10 ||
+    col < 0 ||
+    col >= 10 ||
+    revealed[row][col] ||
+    flagged[row][col]
+  ) {
+    return;
+  }
+  revealed[row][col] = true;
+  const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+  if (board[row][col] === "M") {
+    gameOver = true; // Set game over state
+    console.log("Game Over! Setting TNT image.");
+    cell.style.backgroundImage = "none"; // Remove the grass image
+    cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
+    cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
+    cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
+
+    // Reveal all mines one by one
+    let mineIndex = 0;
+    const mines = [];
+    for (let r = 0; r < 10; r++) {
+      for (let c = 0; c < 10; c++) {
+        if (board[r][c] === "M" && !(r === row && c === col)) {
+          mines.push({ r, c });
+        }
+      }
     }
-    revealed[row][col] = true;
-    const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
-    if (board[row][col] === "M") {
-      console.log("Game Over! Setting TNT image.");
-      cell.style.backgroundImage = "none"; // Remove the grass image
-      cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image
-      cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
-      cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
-      setTimeout(() => {
-        alert("Game Over!");
-        initGame();
-      }, 100); // Delay the alert by 100 milliseconds to appear after the TNT image
-  
-    } else {
-      cell.style.backgroundImage = "url('../imgs/rock.webp')";
-      cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
-      cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
-      cell.textContent = board[row][col] === 0 ? "" : board[row][col];
-      if (board[row][col] === 0) {
-        for (let x = -1; x <= 1; x++) {
-          for (let y = -1; y <= 1; y++) {
-            revealCell(row + x, col + y);
-          }
+
+    const revealNextMine = () => {
+      if (mineIndex < mines.length) {
+        const { r, c } = mines[mineIndex];
+        const mineCell = document.querySelector(
+          `[data-row='${r}'][data-col='${c}']`
+        );
+        mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
+        mineCell.style.backgroundSize = "cover";
+        mineCell.style.backgroundRepeat = "no-repeat";
+        mineIndex++;
+        setTimeout(revealNextMine, 500); // Delay between revealing each mine
+      } else {
+        setTimeout(() => {
+          alert("Game Over!");
+          initGame();
+        }, 200); // Delay the alert until all mines are revealed
+      }
+    };
+
+    revealNextMine();
+  } else {
+    cell.style.backgroundImage = "url('../imgs/rock.webp')";
+    cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
+    cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
+    cell.textContent = board[row][col] === 0 ? "" : board[row][col];
+    if (board[row][col] === 0) {
+      for (let x = -1; x <= 1; x++) {
+        for (let y = -1; y <= 1; y++) {
+          revealCell(row + x, col + y);
         }
       }
     }
   }
+}
 
 // Initialize the game
 function initGame() {
@@ -148,6 +178,7 @@ function initGame() {
   flagged = Array(10)
     .fill(0)
     .map(() => Array(10).fill(false));
+  gameOver = false; // Reset game over state
   createBoard();
   placeMines();
   countMines();
