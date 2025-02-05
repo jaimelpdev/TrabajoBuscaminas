@@ -184,5 +184,15 @@ function initGame() {
   countMines();
 }
 
+// Reset game function
+function resetGame() {
+  initGame();
+  // Additional code to reset the game board UI if necessary
+}
+
+// Add event listener to the reset button
+document.getElementById('reset-game').addEventListener('click', resetGame);
+
+
 // Call the function
 window.onload = initGame;
