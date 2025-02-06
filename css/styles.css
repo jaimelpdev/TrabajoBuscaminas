@@ -32,6 +32,10 @@ h1 {
   width: 3rem;
 }
 
+#timertoggle {
+  width: 3rem;
+}
+
 #question {
   width: 3rem;
   background-color: rgba(112, 149, 173, 0.8);
