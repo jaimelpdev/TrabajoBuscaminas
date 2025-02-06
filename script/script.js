@@ -1,5 +1,8 @@
-let minas = 10;
-let banderasRestantes = minas; // Variable para rastrear el número de banderas restantes
+let mines = 10;
+let remainingFlags = mines;
+let minesPlaced = false;
+let firstClick = true; // Variable to track the first click
+
 let board = Array(10)
   .fill(0)
   .map(() => Array(10).fill(0));
@@ -38,10 +41,51 @@ function createBoard() {
 // Function to place mines randomly on the board
 function placeMines() {
   let minesPlaced = 0;
-  while (minesPlaced < minas) {
+  while (minesPlaced < mines) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
     if (board[row][col] === 0) {
+      board[row][col] = "M";
+      minesPlaced++;
+    }
+  }
+}
+
+// Function to handle cell click
+function handleCellClick(event) {
+  const row = parseInt(event.target.dataset.row);
+  const col = parseInt(event.target.dataset.col);
+
+  if (firstClick) {
+    firstClick = false;
+    if (board[row][col] === "M") {
+      board[row][col] = 0;
+      placeMines();
+      while (board[row][col] === "M") {
+        board[row][col] = 0;
+        placeMines();
+      }
+    }
+  }
+
+  if (!minesPlaced) {
+    placeMinesAfterFirstClick(row, col);
+    countMines();
+    minesPlaced = true;
+  }
+
+  if (gameOver) return; // Prevent clicks if game is over
+  if (!flagged[row][col]) {
+    revealCell(row, col);
+  }
+}
+
+function placeMinesAfterFirstClick(firstRow, firstCol) {
+  let minesPlaced = 0;
+  while (minesPlaced < mines) {
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
       board[row][col] = "M";
       minesPlaced++;
     }
@@ -69,16 +113,6 @@ function countMines() {
   }
 }
 
-// Function to handle cell click
-function handleCellClick(event) {
-  if (gameOver) return; // Prevent clicks if game is over
-  const row = parseInt(event.target.dataset.row);
-  const col = parseInt(event.target.dataset.col);
-  if (!flagged[row][col]) {
-    revealCell(row, col);
-  }
-}
-
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
@@ -88,18 +122,22 @@ function handleCellRightClick(event) {
   toggleFlag(row, col);
 }
 
+function isAdjacent(firstRow, firstCol, row, col) {
+  return Math.abs(firstRow - row) <= 1 && Math.abs(firstCol - col) <= 1;
+}
+
 // Function to toggle flag on a cell
 function toggleFlag(row, col) {
   if (revealed[row][col]) return;
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
     flagged[row][col] = false;
-    banderasRestantes++;
+    remainingFlags++;
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   } else {
-    if (banderasRestantes > 0) {
+    if (remainingFlags > 0) {
       flagged[row][col] = true;
-      banderasRestantes--;
+      remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
     } else {
       alert("No more flags available!");
@@ -186,7 +224,7 @@ function initGame() {
   flagged = Array(10)
     .fill(0)
     .map(() => Array(10).fill(false));
-  banderasRestantes = minas; // Reset the number of remaining flags
+  remainingFlags = mines; // Reset the number of remaining flags
   gameOver = false; // Reset game over state
   createBoard();
   placeMines();
@@ -200,8 +238,7 @@ function resetGame() {
 }
 
 // Add event listener to the reset button
-document.getElementById('reset-game').addEventListener('click', resetGame);
-
+document.getElementById("reset-game").addEventListener("click", resetGame);
 
 // Call the function
 window.onload = initGame;
