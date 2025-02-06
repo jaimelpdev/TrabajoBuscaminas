@@ -38,15 +38,15 @@ function createBoard() {
   }
 }
 
-// Function to place mines randomly on the board
+// Function to place mines
 function placeMines() {
-  let minesPlaced = 0;
-  while (minesPlaced < mines) {
+  let placedMines = 0;
+  while (placedMines < mines) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
     if (board[row][col] === 0) {
-      board[row][col] = "M";
-      minesPlaced++;
+      board[row][col] = 1; // Place a mine
+      placedMines++;
     }
   }
 }
@@ -80,6 +80,7 @@ function handleCellClick(event) {
   }
 }
 
+// Function to place mines after the first click
 function placeMinesAfterFirstClick(firstRow, firstCol) {
   let minesPlaced = 0;
   while (minesPlaced < mines) {
@@ -140,8 +141,6 @@ function toggleFlag(row, col) {
       flagged[row][col] = true;
       remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
-    } else {
-      alert("No more flags available!");
     }
   }
 }
@@ -190,11 +189,6 @@ function revealCell(row, col) {
         mineCell.style.backgroundRepeat = "no-repeat";
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
-      } else {
-        setTimeout(() => {
-          alert("Game Over!");
-          initGame();
-        }, 200); // Delay the alert until all mines are revealed
       }
     };
 
@@ -232,14 +226,33 @@ function initGame() {
   countMines();
 }
 
-// Reset game function
+// Function to reset the game
 function resetGame() {
-  initGame();
-  // Additional code to reset the game board UI if necessary
+  // Reset game variables
+  firstClick = true;
+  minesPlaced = false;
+  gameOver = false;
+
+  // Clear the board
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      board[i][j] = 0;
+      revealed[i][j] = false;
+      flagged[i][j] = false;
+    }
+  }
+
+  // Reset remaining flags
+  remainingFlags = mines;
+
+  // Recreate the board and place mines
+  createBoard();
+  placeMines();
+  countMines();
 }
 
 // Add event listener to the reset button
 document.getElementById("reset-game").addEventListener("click", resetGame);
 
-// Call the function
+// Call the function to initialize the game
 window.onload = initGame;
