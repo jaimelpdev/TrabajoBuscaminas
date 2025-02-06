@@ -24,19 +24,26 @@ h1 {
   text-align: center;
 }
 
-.grass{
-  width: 1rem;
+#grass {
   height: 3rem;
 }
 
-#reset-game{
+#reset-game {
   width: 3rem;
 }
 
+#timertoggle {
+  width: 3rem;
+}
 
-#question{
+#question {
   width: 3rem;
   background-color: rgba(112, 149, 173, 0.8);
+}
+
+#datatoggle {
+  width: 3rem; /* Set the width of the datatoggle image */
+  height: auto; /* Maintain aspect ratio */
 }
 
 #game-board {
@@ -70,3 +77,4 @@ h1 {
   align-items: center; /* Center items vertically */
   margin-bottom: 1rem;
 }
+
