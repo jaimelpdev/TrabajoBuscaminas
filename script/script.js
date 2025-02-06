@@ -88,9 +88,10 @@ function handleCellRightClick(event) {
   toggleFlag(row, col);
 }
 
-// Function to toggle flag on a cell
 function toggleFlag(row, col) {
-  if (revealed[row][col]) return;
+  if (revealed[row][col]) {
+    return;
+  }
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
     flagged[row][col] = false;
@@ -106,7 +107,6 @@ function toggleFlag(row, col) {
     }
   }
 }
-
 // Function to reveal a cell
 function revealCell(row, col) {
   if (
@@ -123,7 +123,6 @@ function revealCell(row, col) {
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (board[row][col] === "M") {
     gameOver = true; // Set game over state
-    console.log("Game Over! Setting TNT image.");
     cell.style.backgroundImage = "none"; // Remove the grass image
     cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
     cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
