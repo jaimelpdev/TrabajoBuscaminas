@@ -77,6 +77,9 @@ function handleCellClick(event) {
   if (gameOver) return; // Prevent clicks if game is over
   if (!flagged[row][col]) {
     revealCell(row, col);
+    if (checkWin()) {
+      gameOver = true;
+    }
   }
 }
 
@@ -206,6 +209,21 @@ function revealCell(row, col) {
       }
     }
   }
+}
+
+// Function to check if the player has won
+function checkWin() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] !== "M" && !revealed[i][j]) {
+        return false; // If any non-mine cell is not revealed, the player hasn't won yet
+      }
+      if (board[i][j] === "M" && !flagged[i][j]) {
+        return false; // If any mine is not flagged, the player hasn't won yet
+      }
+    }
+  }
+  return true; // All conditions for winning are met
 }
 
 // Initialize the game
