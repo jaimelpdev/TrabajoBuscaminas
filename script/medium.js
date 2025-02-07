@@ -1,4 +1,4 @@
-let mines = 30;
+let mines = 16;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -15,12 +15,14 @@ let flagged = Array(16)
 let gameOver = false; // Variable to track game over state
 
 // Add event listener to the difficulty select
-document
-  .getElementById("difficulty-select")
-  .addEventListener("change", function () {
-    const selectedValue = this.value;
-    window.location.href = selectedValue;
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("difficulty-select")
+    .addEventListener("change", function () {
+      const selectedValue = this.value;
+      window.location.href = selectedValue;
+    });
+});
 
 // A function that creates the board 16x16
 function createBoard() {
@@ -283,3 +285,31 @@ document.getElementById("reset-game").addEventListener("click", resetGame);
 
 // Call the function to initialize the game
 window.onload = initGame;
+
+//Modal
+function initializeRulesModal() {
+  // Get elements
+  const rulesButton = document.getElementById("question");
+  const rulesModal = document.getElementById("rulesModal");
+  const closeModal = document.getElementById("closeModal");
+
+  // Show modal when button is clicked
+  rulesButton.addEventListener("click", () => {
+    rulesModal.style.display = "flex";
+  });
+
+  // Close modal when "Close" button is clicked
+  closeModal.addEventListener("click", () => {
+    rulesModal.style.display = "none";
+  });
+
+  // Close modal when clicking outside the modal content
+  window.addEventListener("click", (event) => {
+    if (event.target === rulesModal) {
+      rulesModal.style.display = "none";
+    }
+  });
+}
+
+// Initialize the modal functionality when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", initializeRulesModal);
