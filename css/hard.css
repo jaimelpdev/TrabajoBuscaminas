@@ -42,17 +42,17 @@ h1 {
 }
 
 #datatoggle {
-  width: 3rem;
-  height: auto;
+  width: 3rem; /* Set the width of the datatoggle image */
+  height: auto; /* Maintain aspect ratio */
 }
 
 #game-board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
   margin-top: 1rem;
   background-image: url("../imgs/grass.webp");
-  background-size: 10% 10%;
+  background-size: 20% 20%;
 }
 
 .cell {
@@ -84,7 +84,7 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0,0,0,0.5); /* Darker background for better visibility */
   justify-content: center;
   align-items: center;
 }
