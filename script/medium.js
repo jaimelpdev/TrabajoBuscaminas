@@ -1,17 +1,17 @@
-let mines = 10;
+let mines = 30;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
 
-let board = Array(10)
+let board = Array(16)
   .fill(0)
-  .map(() => Array(10).fill(0));
-let revealed = Array(10)
+  .map(() => Array(16).fill(0));
+let revealed = Array(16)
   .fill(0)
-  .map(() => Array(10).fill(false));
-let flagged = Array(10)
+  .map(() => Array(16).fill(false));
+let flagged = Array(16)
   .fill(0)
-  .map(() => Array(10).fill(false));
+  .map(() => Array(16).fill(false));
 let gameOver = false; // Variable to track game over state
 
 // Add event listener to the difficulty select
@@ -22,7 +22,7 @@ document
     window.location.href = selectedValue;
   });
 
-// A function that creates the board 10x10
+// A function that creates the board 16x16
 function createBoard() {
   const gameBoard = document.getElementById("game-board");
   if (!gameBoard) {
@@ -31,8 +31,8 @@ function createBoard() {
   }
   gameBoard.innerHTML = "";
 
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 16; j++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.style.backgroundImage = "url('../imgs/grass.webp')";
@@ -50,8 +50,8 @@ function createBoard() {
 function placeMines() {
   let placedMines = 0;
   while (placedMines < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
+    let row = Math.floor(Math.random() * 16);
+    let col = Math.floor(Math.random() * 16);
     if (board[row][col] === 0) {
       board[row][col] = 1; // Place a mine
       placedMines++;
@@ -95,8 +95,8 @@ function handleCellClick(event) {
 function placeMinesAfterFirstClick(firstRow, firstCol) {
   let minesPlaced = 0;
   while (minesPlaced < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
+    let row = Math.floor(Math.random() * 16);
+    let col = Math.floor(Math.random() * 16);
     if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
       board[row][col] = "M";
       minesPlaced++;
@@ -106,13 +106,13 @@ function placeMinesAfterFirstClick(firstRow, firstCol) {
 
 // Function to count mines around each cell
 function countMines() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 16; j++) {
       if (board[i][j] !== "M") {
         let mineCount = 0;
         for (let x = -1; x <= 1; x++) {
           for (let y = -1; y <= 1; y++) {
-            if (i + x >= 0 && i + x < 10 && j + y >= 0 && j + y < 10) {
+            if (i + x >= 0 && i + x < 16 && j + y >= 0 && j + y < 16) {
               if (board[i + x][j + y] === "M") {
                 mineCount++;
               }
@@ -161,9 +161,9 @@ function toggleFlag(row, col) {
 function revealCell(row, col) {
   if (
     row < 0 ||
-    row >= 10 ||
+    row >= 16 ||
     col < 0 ||
-    col >= 10 ||
+    col >= 16 ||
     revealed[row][col] ||
     flagged[row][col]
   ) {
@@ -182,8 +182,8 @@ function revealCell(row, col) {
     // Reveal all mines one by one
     let mineIndex = 0;
     const mines = [];
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 10; c++) {
+    for (let r = 0; r < 16; r++) {
+      for (let c = 0; c < 16; c++) {
         if (board[r][c] === "M" && !(r === row && c === col)) {
           mines.push({ r, c });
         }
@@ -222,8 +222,8 @@ function revealCell(row, col) {
 
 // Function to check if the player has won
 function checkWin() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 16; j++) {
       if (board[i][j] !== "M" && !revealed[i][j]) {
         return false; // If any non-mine cell is not revealed, the player hasn't won yet
       }
@@ -237,15 +237,15 @@ function checkWin() {
 
 // Initialize the game
 function initGame() {
-  board = Array(10)
+  board = Array(16)
     .fill(0)
-    .map(() => Array(10).fill(0));
-  revealed = Array(10)
+    .map(() => Array(16).fill(0));
+  revealed = Array(16)
     .fill(0)
-    .map(() => Array(10).fill(false));
-  flagged = Array(10)
+    .map(() => Array(16).fill(false));
+  flagged = Array(16)
     .fill(0)
-    .map(() => Array(10).fill(false));
+    .map(() => Array(16).fill(false));
   remainingFlags = mines; // Reset the number of remaining flags
   gameOver = false; // Reset game over state
   createBoard();
@@ -261,8 +261,8 @@ function resetGame() {
   gameOver = false;
 
   // Clear the board
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 16; j++) {
       board[i][j] = 0;
       revealed[i][j] = false;
       flagged[i][j] = false;
@@ -283,34 +283,3 @@ document.getElementById("reset-game").addEventListener("click", resetGame);
 
 // Call the function to initialize the game
 window.onload = initGame;
-
-
-//Modal 
-
-function initializeRulesModal() {
-
-  // Get elements
-  const rulesButton = document.getElementById('question');
-  const rulesModal = document.getElementById('rulesModal');
-  const closeModal = document.getElementById('closeModal');
-
-  // Show modal when button is clicked
-  rulesButton.addEventListener('click', () => {
-      rulesModal.style.display = 'flex';
-  });
-
-  // Close modal when "Close" button is clicked
-  closeModal.addEventListener('click', () => {
-      rulesModal.style.display = 'none';
-  });
-
-  // Close modal when clicking outside the modal content
-  window.addEventListener('click', (event) => {
-      if (event.target === rulesModal) {
-          rulesModal.style.display = 'none';
-      }
-  });
-}
-
-// Initialize the modal functionality when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', initializeRulesModal);

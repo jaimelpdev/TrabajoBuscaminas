@@ -1,6 +1,5 @@
 body {
   background-image: url("../imgs/background.webp");
-  background-repeat: no-repeat;
   background-size: cover;
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -48,11 +47,11 @@ h1 {
 
 #game-board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
   margin-top: 1rem;
   background-image: url("../imgs/grass.webp");
-  background-size: 10% 10%;
+  background-size: 16% 16%;
 }
 
 .cell {
@@ -75,38 +74,6 @@ h1 {
   justify-content: center;
   margin-bottom: 1rem;
   position: relative;
-}
-
-.modal {
-  display: none; 
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background-color: rgba(130, 180, 212, 0.8);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 80%;
-  max-width: 400px;
-  text-align: center;
-}
-
-.close-btn {
-  color: red;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  cursor: pointer;
-  margin-top: 10px;
-
 }
 
 #difficulty-select {
