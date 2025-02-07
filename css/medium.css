@@ -1,6 +1,5 @@
 body {
   background-image: url("../imgs/background.webp");
-  background-repeat: no-repeat;
   background-size: cover;
   font-family: "Roboto", sans-serif;
   margin: 0;
@@ -48,11 +47,11 @@ h1 {
 
 #game-board {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(16, 1fr);
   margin-top: 1rem;
   background-image: url("../imgs/grass.webp");
-  background-size: 10% 10%;
+  background-size: 16% 16%;
 }
 
 .cell {
