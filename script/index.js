@@ -1,4 +1,4 @@
-let mines = 70;
+let mines = 10;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -143,6 +143,8 @@ function toggleFlag(row, col) {
       flagged[row][col] = true;
       remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
+    } else {
+      console.log("No remaining flags available.");
     }
   }
 }
