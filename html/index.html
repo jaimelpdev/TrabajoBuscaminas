@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscaminas</title>
+    <title>Minecraft Mine Sweaper</title>
     <link rel="icon" href="../imgs/TNTicon.webp" type="image/x-icon"/>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body>
-    <h1>Buscaminas</h1>
+    <h1>Mine Sweaper</h1>
     <div id="game-container">
         <div id="game-controls">
             <img id="grass" src="../imgs/grassside2.webp" alt="">
@@ -25,6 +25,19 @@
         </div>
         <div id="game-board"></div>
     </div>
+
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <h2>How to Play Minesweper</h2>
+            <p>Left Click one of the squares to begin the game pay attention to the numbers and deduce the were the mines are located</p>
+            <p>Choose your difficulty if you wish to test yourslef</p>
+            <p>Press the pig Face to reset the board</p>
+            <p>Press the book to see data</p>
+            <p>Press the chronometer to show how much time it takes for you  </p>
+            <button class="close-btn" id="closeModal">Close</button>
+        </div>
+    </div>
+
     <script src="../script/script.js"></script>
 </body>
 
