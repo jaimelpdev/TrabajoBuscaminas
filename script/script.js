@@ -133,7 +133,6 @@ function isAdjacent(firstRow, firstCol, row, col) {
 // Function to toggle flag on a cell
 function toggleFlag(row, col) {
   if (revealed[row][col]) return;
-  flagged[row][col] = !flagged[row][col];
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
     flagged[row][col] = false;
