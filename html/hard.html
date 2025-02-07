@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="icon" href="../imgs/TNTicon.webp" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/hard.css">
+</head>
+
+<body>
+    <h1>Minesweeper</h1>
+    <div id="game-container">
+        <div id="game-controls">
+            <select id="difficulty-select">
+                <option value="index.html">Easy</option>
+                <option value="medium.html">Medium</option>
+                <option value="hard.html">Hard</option>
+            </select>
+            <img id="grass" src="../imgs/grassside2.webp" alt="">
+            <img id="question" src="../imgs/questiongrass.webp" alt="">
+            <img id="grass" src="../imgs/halfgrass.webp" alt="">
+            <img id="reset-game" src="../imgs/pigonGrass.webp" alt="Reset">
+            <img id="grass" src="../imgs/halfgrass.webp" alt="">
+            <img id="datatoggle" src="../imgs/minecraftbooktoggle.webp" alt="data">
+            <img id="grass" src="../imgs/halfgrass.webp" alt="">
+            <img id="timertoggle" src="../imgs/clockongrass.webp" alt="timertoggle">
+            <img id="grass" src="../imgs/grassside.webp" alt="">
+
+            <div id="rulesModal" class="modal">
+                <div class="modal-content">
+                    <h2>How to Play Minesweeper</h2>
+                    <p>Left Click one of the squares to begin the game. Pay attention to the numbers and deduce where
+                        the mines are located.</p>
+                    <p>Choose your difficulty if you wish to test yourself.</p>
+                    <p>Press the pig face to reset the board.</p>
+                    <p>Press the book to see data.</p>
+                    <p>Press the chronometer to show how much time it takes for you.</p>
+                    <button class="close-btn" id="closeModal">Close</button>
+                </div>
+            </div>
+
+        </div>
+        <div id="game-board"></div>
+    </div>
+    <script src="../script/hard.js"></script>
+</body>
+
+</html>
