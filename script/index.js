@@ -282,8 +282,6 @@ document.getElementById("reset-game").addEventListener("click", resetGame);
 
 // Call the function to initialize the game
 window.onload = initGame;
-<<<<<<< Updated upstream
-=======
 
 //Modal
 
@@ -313,4 +311,3 @@ function initializeRulesModal() {
 
 // Initialize the modal functionality when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", initializeRulesModal);
->>>>>>> Stashed changes
