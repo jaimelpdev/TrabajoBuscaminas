@@ -1,5 +1,8 @@
-let minas = 10;
-let banderasRestantes = minas; // Variable para rastrear el número de banderas restantes
+let mines = 10;
+let remainingFlags = mines;
+let minesPlaced = false;
+let firstClick = true; // Variable to track the first click
+
 let board = Array(10)
   .fill(0)
   .map(() => Array(10).fill(0));
@@ -35,13 +38,58 @@ function createBoard() {
   }
 }
 
-// Function to place mines randomly on the board
+// Function to place mines
 function placeMines() {
-  let minesPlaced = 0;
-  while (minesPlaced < minas) {
+  let placedMines = 0;
+  while (placedMines < mines) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
     if (board[row][col] === 0) {
+      board[row][col] = 1; // Place a mine
+      placedMines++;
+    }
+  }
+}
+
+// Function to handle cell click
+function handleCellClick(event) {
+  const row = parseInt(event.target.dataset.row);
+  const col = parseInt(event.target.dataset.col);
+
+  if (firstClick) {
+    firstClick = false;
+    if (board[row][col] === "M") {
+      board[row][col] = 0;
+      placeMines();
+      while (board[row][col] === "M") {
+        board[row][col] = 0;
+        placeMines();
+      }
+    }
+  }
+
+  if (!minesPlaced) {
+    placeMinesAfterFirstClick(row, col);
+    countMines();
+    minesPlaced = true;
+  }
+
+  if (gameOver) return; // Prevent clicks if game is over
+  if (!flagged[row][col]) {
+    revealCell(row, col);
+    if (checkWin()) {
+      gameOver = true;
+    }
+  }
+}
+
+// Function to place mines after the first click
+function placeMinesAfterFirstClick(firstRow, firstCol) {
+  let minesPlaced = 0;
+  while (minesPlaced < mines) {
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
       board[row][col] = "M";
       minesPlaced++;
     }
@@ -69,16 +117,6 @@ function countMines() {
   }
 }
 
-// Function to handle cell click
-function handleCellClick(event) {
-  if (gameOver) return; // Prevent clicks if game is over
-  const row = parseInt(event.target.dataset.row);
-  const col = parseInt(event.target.dataset.col);
-  if (!flagged[row][col]) {
-    revealCell(row, col);
-  }
-}
-
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
@@ -88,25 +126,29 @@ function handleCellRightClick(event) {
   toggleFlag(row, col);
 }
 
+function isAdjacent(firstRow, firstCol, row, col) {
+  return Math.abs(firstRow - row) <= 1 && Math.abs(firstCol - col) <= 1;
+}
+
+// Function to toggle flag on a cell
 function toggleFlag(row, col) {
-  if (revealed[row][col]) {
-    return;
-  }
+  if (revealed[row][col]) return;
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (flagged[row][col]) {
     flagged[row][col] = false;
-    banderasRestantes++;
+    remainingFlags++;
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   } else {
-    if (banderasRestantes > 0) {
+    if (remainingFlags > 0) {
       flagged[row][col] = true;
-      banderasRestantes--;
+      remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
     } else {
-      alert("No more flags available!");
+      console.log("No remaining flags available.");
     }
   }
 }
+
 // Function to reveal a cell
 function revealCell(row, col) {
   if (
@@ -123,6 +165,7 @@ function revealCell(row, col) {
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (board[row][col] === "M") {
     gameOver = true; // Set game over state
+    console.log("Game Over! Setting TNT image.");
     cell.style.backgroundImage = "none"; // Remove the grass image
     cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
     cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
@@ -150,11 +193,6 @@ function revealCell(row, col) {
         mineCell.style.backgroundRepeat = "no-repeat";
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
-      } else {
-        setTimeout(() => {
-          alert("Game Over!");
-          initGame();
-        }, 200); // Delay the alert until all mines are revealed
       }
     };
 
@@ -174,6 +212,21 @@ function revealCell(row, col) {
   }
 }
 
+// Function to check if the player has won
+function checkWin() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] !== "M" && !revealed[i][j]) {
+        return false; // If any non-mine cell is not revealed, the player hasn't won yet
+      }
+      if (board[i][j] === "M" && !flagged[i][j]) {
+        return false; // If any mine is not flagged, the player hasn't won yet
+      }
+    }
+  }
+  return true; // All conditions for winning are met
+}
+
 // Initialize the game
 function initGame() {
   board = Array(10)
@@ -185,24 +238,42 @@ function initGame() {
   flagged = Array(10)
     .fill(0)
     .map(() => Array(10).fill(false));
-  banderasRestantes = minas; // Reset the number of remaining flags
+  remainingFlags = mines; // Reset the number of remaining flags
   gameOver = false; // Reset game over state
   createBoard();
   placeMines();
   countMines();
 }
 
-// Reset game function
+// Function to reset the game
 function resetGame() {
-  initGame();
-  // Additional code to reset the game board UI if necessary
+  // Reset game variables
+  firstClick = true;
+  minesPlaced = false;
+  gameOver = false;
+
+  // Clear the board
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      board[i][j] = 0;
+      revealed[i][j] = false;
+      flagged[i][j] = false;
+    }
+  }
+
+  // Reset remaining flags
+  remainingFlags = mines;
+
+  // Recreate the board and place mines
+  createBoard();
+  placeMines();
+  countMines();
 }
 
 // Add event listener to the reset button
-document.getElementById('reset-game').addEventListener('click', resetGame);
+document.getElementById("reset-game").addEventListener("click", resetGame);
 
-
-// Call the function
+// Call the function to initialize the game
 window.onload = initGame;
 
 
