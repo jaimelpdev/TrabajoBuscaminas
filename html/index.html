@@ -5,19 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscaminas</title>
-    <link rel="icon" href="../imgs/TNTicon.webp" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" href="../imgs/TNTicon.webp" type="image/x-icon"/>
+    <link rel="stylesheet" href="../css/index.css">
 </head>
 
 <body>
     <h1>Buscaminas</h1>
     <div id="game-container">
         <div id="game-controls">
-            <select id="difficulty-select">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>
             <img id="grass" src="../imgs/grassside2.webp" alt="">
             <img id="question" src="../imgs/questiongrass.webp" alt="">
             <img id="grass" src="../imgs/halfgrass.webp" alt="">
@@ -27,12 +22,25 @@
             <img id="grass" src="../imgs/halfgrass.webp" alt="">
             <img id="timertoggle" src="../imgs/clockongrass.webp" alt="timertoggle">
             <img id="grass" src="../imgs/grassside.webp" alt="">
-            
 
         </div>
         <div id="game-board"></div>
     </div>
-    <script src="../script/script.js"></script>
+
+    <script src="../script/index.js"></script>
+
+    <div id="rulesModal" class="modal">
+        <div class="modal-content">
+            <h2>How to Play Minesweper</h2>
+            <p>Left Click one of the squares to begin the game pay attention to the numbers and deduce the were the mines are located</p>
+            <p>Choose your difficulty if you wish to test yourslef</p>
+            <p>Press the pig Face to reset the board</p>
+            <p>Press the book to see data</p>
+            <p>Press the chronometer to show how much time it takes for you  </p>
+            <button class="close-btn" id="closeModal">Close</button>
+        </div>
+    </div>
+
 </body>
 
 </html>
