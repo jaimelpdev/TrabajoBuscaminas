@@ -73,8 +73,15 @@ h1 {
   background-color: rgba(112, 149, 173, 0.8);
   border-radius: 8px;
   display: flex;
-  justify-content: flex-start; /* Align items to the start (left) */
-  align-items: center; /* Center items vertically */
+  justify-content: center;
   margin-bottom: 1rem;
+  position: relative;
 }
 
+#difficulty-select {
+  border-radius: 8px;
+  background-color: rgb(196, 240, 245);
+  position: absolute;
+  height: 60%;
+  left: 1rem;
+}
