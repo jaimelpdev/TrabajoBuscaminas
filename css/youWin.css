@@ -1,0 +1,25 @@
+body {
+    background-image: url("../imgs/YouWinBg.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  #title {
+    display: block;
+    margin: 5rem auto 0; /* Add margin-top and center horizontally */
+    width: 50%; /* Adjust the width as needed */
+    max-width: 600px; /* Ensure it doesn't get too large */
+  }
+
+  #options{
+    display: block;
+    margin: 2rem auto 0; /* Add margin-top and center horizontally */
+    width: 50%; /* Adjust the width as needed */
+    max-width: 300px; /* Ensure it doesn't get too large */
+  }
