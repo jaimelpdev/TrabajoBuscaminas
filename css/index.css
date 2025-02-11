@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   background-image: url("../imgs/background.webp");
   background-repeat: no-repeat;
@@ -7,7 +8,6 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 #game-container {
@@ -24,25 +24,23 @@ h1 {
   text-align: center;
 }
 
+/* Game Elements */
 #grass {
   height: 3rem;
 }
 
-#reset-game {
-  width: 3rem;
-}
-
-#timertoggle {
+#reset-game,
+#timertoggle,
+#question,
+#datatoggle {
   width: 3rem;
 }
 
 #question {
-  width: 3rem;
   background-color: rgba(112, 149, 173, 0.8);
 }
 
 #datatoggle {
-  width: 3rem;
   height: auto;
 }
 
@@ -50,9 +48,10 @@ h1 {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  margin-top: 1rem;
+  margin: 1rem 0;
   background-image: url("../imgs/grass.webp");
   background-size: 10% 10%;
+  margin-right: 2rem;
 }
 
 .cell {
@@ -65,10 +64,9 @@ h1 {
   border: 1px solid #ccc;
 }
 
-/* Modal Start */
-
+/* Modal Styles */
 .modal {
-  display: none; 
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -98,8 +96,7 @@ h1 {
   margin-top: 10px;
 }
 
-/* End Modal */
-
+/* Game Controls */
 #difficulty-select {
   border-radius: 8px;
   background-color: rgb(196, 240, 245);
@@ -142,4 +139,31 @@ h1 {
   margin: 2rem auto 0; /* Add margin-top and center horizontally */
   width: 50%; /* Adjust the width as needed */
   max-width: 400px; /* Ensure it doesn't get too large */
+}
+
+#info {
+  width: 19rem;
+  height: 23rem;
+  background-image: url("../imgs/book.webp");
+  display: flex;
+  flex-direction: column; /* Align elements in column */
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-right: 5rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#info img {
+  max-width: 3rem; /* Adjust max size as needed */
+  height: auto; /* Maintain image proportion */
+}
+
+#num-mines,
+#num-flags {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
 }

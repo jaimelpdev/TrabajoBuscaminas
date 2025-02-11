@@ -313,3 +313,13 @@ function initializeRulesModal() {
 
 // Initialize the modal functionality when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", initializeRulesModal);
+
+// End Modal
+
+// Manage difficulty selection
+document
+  .getElementById("difficulty-select")
+  .addEventListener("change", function () {
+    const selectedValue = this.value;
+    window.location.href = selectedValue;
+  });

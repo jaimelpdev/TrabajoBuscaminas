@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   background-image: url("../imgs/background.webp");
   background-repeat: no-repeat;
@@ -7,7 +8,6 @@ body {
   padding: 0;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 #game-container {
@@ -24,40 +24,39 @@ h1 {
   text-align: center;
 }
 
+/* Game Elements */
 #grass {
   height: 3rem;
 }
 
-#reset-game {
-  width: 3rem;
-}
-
-#timertoggle {
+#reset-game,
+#timertoggle,
+#question,
+#datatoggle {
   width: 3rem;
 }
 
 #question {
-  width: 3rem;
   background-color: rgba(112, 149, 173, 0.8);
 }
 
 #datatoggle {
-  width: 3rem; /* Set the width of the datatoggle image */
-  height: auto; /* Maintain aspect ratio */
+  height: auto;
 }
 
 #game-board {
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-template-rows: repeat(16, 1fr);
-  margin-top: 1rem;
+  margin: 1rem 0;
   background-image: url("../imgs/grass.webp");
-  background-size: 16% 16%;
+  background-size: 10% 10%;
+  margin-right: 2rem;
 }
 
 .cell {
-  width: 67px;
-  height: 67px;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,18 +64,7 @@ h1 {
   border: 1px solid #ccc;
 }
 
-#game-controls {
-  width: 100%;
-  max-width: 700px;
-  padding: 1rem;
-  background-color: rgba(112, 149, 173, 0.8);
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
+/* Modal Styles */
 .modal {
   display: none;
   position: fixed;
@@ -108,10 +96,74 @@ h1 {
   margin-top: 10px;
 }
 
+/* Game Controls */
 #difficulty-select {
   border-radius: 8px;
   background-color: rgb(196, 240, 245);
+  height: 3rem;
+  margin-right: 1rem; /* Add some space to the right */
+}
+
+#game-controls {
+  width: 100%;
+  max-width: 700px;
+  padding: 1rem;
+  background-color: rgba(112, 149, 173, 0.8);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between; /* Distribute space between elements */
+  align-items: center; /* Align items vertically */
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.control-images {
+  display: flex;
+  justify-content: center; /* Center the images */
+  align-items: center; /* Align items vertically */
+}
+
+#stopwatch {
+  width: 9rem;
+  height: auto;
+  font-size: 1.5rem;
+  color: #333;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for overflow content */
+  margin-left: auto; /* Push the stopwatch to the right */
+}
+
+#title {
+  display: block;
+  margin: 2rem auto 0; /* Add margin-top and center horizontally */
+  width: 50%; /* Adjust the width as needed */
+  max-width: 400px; /* Ensure it doesn't get too large */
+}
+
+#info {
+  width: 19rem;
+  height: 23rem;
+  background-image: url("../imgs/book.webp");
+  display: flex;
+  flex-direction: column; /* Align elements in column */
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  margin-right: 5rem;
   position: absolute;
-  height: 60%;
-  left: 1rem;
+  right: 0;
+  top: 0;
+}
+
+#info img {
+  max-width: 3rem; /* Adjust max size as needed */
+  height: auto; /* Maintain image proportion */
+}
+
+#num-mines,
+#num-flags {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
 }

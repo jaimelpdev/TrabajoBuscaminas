@@ -16,8 +16,6 @@ let gameOver = false; // Variable to track game over state
 
 //Stopwatch variables
 
-
-
 // A function that creates the board 10x10
 function createBoard() {
   const gameBoard = document.getElementById("game-board");
@@ -308,6 +306,14 @@ function initializeRulesModal() {
 }
 
 // Initialize the modal functionality when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', initializeRulesModal);
+document.addEventListener("DOMContentLoaded", initializeRulesModal);
 
 //End Modal
+
+// Manage difficulty selection
+document
+  .getElementById("difficulty-select")
+  .addEventListener("change", function () {
+    const selectedValue = this.value;
+    window.location.href = selectedValue;
+  });
