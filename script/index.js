@@ -14,12 +14,9 @@ let flagged = Array(10)
   .map(() => Array(10).fill(false));
 let gameOver = false; // Variable to track game over state
 
-document
-  .getElementById("difficulty-select")
-  .addEventListener("change", function () {
-    const selectedValue = this.value;
-    window.location.href = selectedValue;
-  });
+//Stopwatch variables
+
+
 
 // A function that creates the board 10x10
 function createBoard() {
@@ -137,7 +134,6 @@ function isAdjacent(firstRow, firstCol, row, col) {
   return Math.abs(firstRow - row) <= 1 && Math.abs(firstCol - col) <= 1;
 }
 
-// Function to toggle flag on a cell
 function toggleFlag(row, col) {
   if (revealed[row][col]) return;
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
@@ -150,6 +146,11 @@ function toggleFlag(row, col) {
       flagged[row][col] = true;
       remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
+      setTimeout(() => {
+        if (youWin()) {
+          gameOver = true;
+        }
+      }, 100); // Delay to ensure the flag is shown before checking win condition
     } else {
       console.log("No remaining flags available.");
     }
@@ -220,18 +221,16 @@ function revealCell(row, col) {
 }
 
 // Function to check if the player has won
-function checkWin() {
+function youWin() {
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
-      if (board[i][j] !== "M" && !revealed[i][j]) {
-        return false; // If any non-mine cell is not revealed, the player hasn't won yet
-      }
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
     }
   }
-  return true; // All conditions for winning are met
+  window.location.href = "youWin.html"; // Redirect to youWin.html
+  return true; // All mines are flagged
 }
 
 // Initialize the game
@@ -309,4 +308,6 @@ function initializeRulesModal() {
 }
 
 // Initialize the modal functionality when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", initializeRulesModal);
+document.addEventListener('DOMContentLoaded', initializeRulesModal);
+
+//End Modal
