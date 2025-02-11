@@ -157,6 +157,18 @@ function toggleFlag(row, col) {
   }
 }
 
+// Function to check if all mines are revealed
+function checkAllMinesRevealed() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] === "M" && !revealed[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 // Function to reveal a cell
 function revealCell(row, col) {
   if (
@@ -199,8 +211,16 @@ function revealCell(row, col) {
         mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
         mineCell.style.backgroundSize = "cover";
         mineCell.style.backgroundRepeat = "no-repeat";
+        revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
+      } else {
+        // Check if all mines are revealed after the last mine is shown
+        setTimeout(() => {
+          if (checkAllMinesRevealed()) {
+            window.location.href = "../html/youLose.html"; // Redirect to youLose.html
+          }
+        }, 500); // Delay to ensure the last mine is shown before checking
       }
     };
 
@@ -282,35 +302,30 @@ document.getElementById("reset-game").addEventListener("click", resetGame);
 // Call the function to initialize the game
 window.onload = initGame;
 
-
-//Modal 
-
+//Modal
 function initializeRulesModal() {
-
   // Get elements
-  const rulesButton = document.getElementById('question');
-  const rulesModal = document.getElementById('rulesModal');
-  const closeModal = document.getElementById('closeModal');
+  const rulesButton = document.getElementById("question");
+  const rulesModal = document.getElementById("rulesModal");
+  const closeModal = document.getElementById("closeModal");
 
   // Show modal when button is clicked
-  rulesButton.addEventListener('click', () => {
-      rulesModal.style.display = 'flex';
+  rulesButton.addEventListener("click", () => {
+    rulesModal.style.display = "flex";
   });
 
   // Close modal when "Close" button is clicked
-  closeModal.addEventListener('click', () => {
-      rulesModal.style.display = 'none';
+  closeModal.addEventListener("click", () => {
+    rulesModal.style.display = "none";
   });
 
   // Close modal when clicking outside the modal content
-  window.addEventListener('click', (event) => {
-      if (event.target === rulesModal) {
-          rulesModal.style.display = 'none';
-      }
+  window.addEventListener("click", (event) => {
+    if (event.target === rulesModal) {
+      rulesModal.style.display = "none";
+    }
   });
 }
 
 // Initialize the modal functionality when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', initializeRulesModal);
-
-//End Modal
