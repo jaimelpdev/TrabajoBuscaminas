@@ -1,0 +1,38 @@
+body {
+    background-image: url("../imgs/YouWinBg.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  #title {
+    display: block;
+    width: 50%; 
+    max-width: 600px; 
+    text-align: center;
+  }
+  
+  #images-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20rem; 
+    margin: 1rem 0;
+  }
+  
+  #images-container img {
+    max-width: 400px; 
+  }
+  
+  #play {
+    display: block;
+    margin-bottom: 200px;
+    max-width: 600px; 
+  }
