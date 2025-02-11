@@ -2,6 +2,7 @@ let mines = 16;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
+let clickCount = 0; // Variable to track the number of clicks
 
 let board = Array(16)
   .fill(0)
@@ -14,15 +15,20 @@ let flagged = Array(16)
   .map(() => Array(16).fill(false));
 let gameOver = false; // Variable to track game over state
 
-// Add event listener to the difficulty select
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("difficulty-select")
-    .addEventListener("change", function () {
-      const selectedValue = this.value;
-      window.location.href = selectedValue;
-    });
-});
+// Function to update the info section
+function updateInfo() {
+  document.getElementById(
+    "num-mines"
+  ).innerHTML = `<img src="../imgs/tnt.webp" alt="tnt">${mines}`;
+  document.getElementById(
+    "num-flags"
+  ).innerHTML = `<img src="../imgs/diamond_pickaxe.webp" alt="diamond pickaxe">${remainingFlags}`;
+  document.getElementById(
+    "num-clicks"
+  ).innerHTML = `<img src="../imgs/click.webp" alt="mouse click">${clickCount}`;
+}
+
+//Stopwatch variables
 
 // A function that creates the board 16x16
 function createBoard() {
@@ -87,6 +93,8 @@ function handleCellClick(event) {
   if (gameOver) return; // Prevent clicks if game is over
   if (!flagged[row][col]) {
     revealCell(row, col);
+    clickCount++; // Increment click count
+    updateInfo(); // Update info section
     if (checkWin()) {
       gameOver = true;
     }
@@ -130,10 +138,12 @@ function countMines() {
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
+  event.preventDefault();
   if (gameOver) return; // Prevent right-clicks if game is over
   const row = parseInt(event.target.dataset.row);
   const col = parseInt(event.target.dataset.col);
   toggleFlag(row, col);
+  updateInfo(); // Update info section
 }
 
 function isAdjacent(firstRow, firstCol, row, col) {
@@ -147,16 +157,25 @@ function toggleFlag(row, col) {
   if (flagged[row][col]) {
     flagged[row][col] = false;
     remainingFlags++;
+    if (board[row][col] === "M") {
+      mines++; // Increment mines if flag is removed from a mine
+    }
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   } else {
     if (remainingFlags > 0) {
       flagged[row][col] = true;
       remainingFlags--;
       cell.style.backgroundImage = "url('../imgs/flag.webp')";
+      setTimeout(() => {
+        if (youWin()) {
+          gameOver = true;
+        }
+      }, 100); // Delay to ensure the flag is shown before checking win condition
     } else {
       console.log("No remaining flags available.");
     }
   }
+  updateInfo(); // Update info section
 }
 
 // Function to reveal a cell
@@ -223,18 +242,16 @@ function revealCell(row, col) {
 }
 
 // Function to check if the player has won
-function checkWin() {
+function youWin() {
   for (let i = 0; i < 16; i++) {
     for (let j = 0; j < 16; j++) {
-      if (board[i][j] !== "M" && !revealed[i][j]) {
-        return false; // If any non-mine cell is not revealed, the player hasn't won yet
-      }
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
     }
   }
-  return true; // All conditions for winning are met
+  window.location.href = "youWin.html"; // Redirect to youWin.html
+  return true; // All mines are flagged
 }
 
 // Initialize the game
@@ -249,10 +266,12 @@ function initGame() {
     .fill(0)
     .map(() => Array(16).fill(false));
   remainingFlags = mines; // Reset the number of remaining flags
+  clickCount = 0; // Reset click count
   gameOver = false; // Reset game over state
   createBoard();
   placeMines();
   countMines();
+  updateInfo(); // Update info section
 }
 
 // Function to reset the game
@@ -273,11 +292,13 @@ function resetGame() {
 
   // Reset remaining flags
   remainingFlags = mines;
+  clickCount = 0; // Reset click count
 
   // Recreate the board and place mines
   createBoard();
   placeMines();
   countMines();
+  updateInfo(); // Update info section
 }
 
 // Add event listener to the reset button
@@ -314,7 +335,7 @@ function initializeRulesModal() {
 // Initialize the modal functionality when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", initializeRulesModal);
 
-// End Modal
+//End Modal
 
 // Manage difficulty selection
 document
