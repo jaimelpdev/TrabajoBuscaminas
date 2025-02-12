@@ -178,6 +178,18 @@ function toggleFlag(row, col) {
   updateInfo(); // Update info section
 }
 
+function checkAllMinesRevealed() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] === "M" && !revealed[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+  updateInfo(); // Update info section
+}
+
 // Function to reveal a cell
 function revealCell(row, col) {
   if (
@@ -256,10 +268,13 @@ function youWin() {
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
+      if (board[i][j] !== "M" && !revealed[i][j]) {
+        return false; // If any non-mine cell is not revealed, the player hasn't won yet
+      }
     }
   }
   window.location.href = "youWin.html"; // Redirect to youWin.html
-  return true; // All mines are flagged
+  return true; // All mines are flagged and all non-mine cells are revealed
 }
 
 // Initialize the game
