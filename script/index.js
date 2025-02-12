@@ -30,7 +30,10 @@ function updateInfo() {
 
 document.getElementById("datatoggle").addEventListener("click", function () {
   const infoElement = document.getElementById("info");
-  if (infoElement.style.display === "none" || infoElement.style.display === "") {
+  if (
+    infoElement.style.display === "none" ||
+    infoElement.style.display === ""
+  ) {
     infoElement.style.display = "flex";
   } else {
     infoElement.style.display = "none";
@@ -38,6 +41,36 @@ document.getElementById("datatoggle").addEventListener("click", function () {
 });
 
 //Stopwatch variables
+let timerInterval;
+let timerRunning = false;
+let elapsedTime = 0;
+
+// Function to start the stopwatch
+function startStopwatch() {
+  if (timerRunning || !firstClick) return; // Prevent multiple intervals and ensure it's the first click
+  timerRunning = true;
+  const startTime = Date.now() - elapsedTime;
+
+  timerInterval = setInterval(() => {
+    elapsedTime = Date.now() - startTime;
+    const minutes = Math.floor(elapsedTime / 60000);
+    const seconds = Math.floor((elapsedTime % 60000) / 1000);
+    document.getElementById("stopwatch").textContent = `${String(
+      minutes
+    ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }, 1000);
+}
+
+// Function to stop the stopwatch
+function stopStopwatch() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+}
+
+// Add event listener to the timer image
+document
+  .getElementById("timertoggle")
+  .addEventListener("click", startStopwatch);
 
 // A function that creates the board 10x10
 function createBoard() {
@@ -203,6 +236,7 @@ function revealCell(row, col) {
   const cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
   if (board[row][col] === "M") {
     gameOver = true; // Set game over state
+    stopStopwatch(); // Stop the stopwatch
     console.log("Game Over! Setting TNT image.");
     cell.style.backgroundImage = "none"; // Remove the grass image
     cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
