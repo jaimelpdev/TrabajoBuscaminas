@@ -13,11 +13,10 @@
     <img id="title" src="../imgs/title.webp" alt="title">
     <div id="game-container">
         <div id="game-controls">
-
             <select id="difficulty-select">
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
+                <option value="index.html" selected>Easy</option>
+                <option value="medium.html">Medium</option>
+                <option value="hard.html">Hard</option>
             </select>
 
             <div class="control-images">
@@ -34,24 +33,30 @@
 
             <div id="stopwatch">00:00</div>
 
+            <div id="rulesModal" class="modal">
+                <div class="modal-content">
+                    <h2>How to Play Minesweper</h2>
+                    <p>Left Click one of the squares to begin the game pay attention to the numbers and deduce the were
+                        the mines are located</p>
+                    <p>Choose your difficulty if you wish to test yourslef</p>
+                    <p>Press the pig Face to reset the board</p>
+                    <p>Press the book to see data</p>
+                    <p>Press the chronometer to show how much time it takes for you </p>
+                    <button class="close-btn" id="closeModal">Close</button>
+                </div>
+            </div>
         </div>
+
         <div id="game-board"></div>
-    </div>
 
-    <script src="../script/index.js"></script>
-
-    <div id="rulesModal" class="modal">
-        <div class="modal-content">
-            <h2>How to Play Minesweper</h2>
-            <p>Left Click one of the squares to begin the game pay attention to the numbers and deduce the were the mines are located</p>
-            <p>Choose your difficulty if you wish to test yourslef</p>
-            <p>Press the pig Face to reset the board</p>
-            <p>Press the book to see data</p>
-            <p>Press the chronometer to show how much time it takes for you  </p>
-            <button class="close-btn" id="closeModal">Close</button>
+        <div id="info">
+            <div id="num-mines"><img src="../imgs/tnt.webp" alt="tnt">10</div>
+            <div id="num-flags"><img src="../imgs/diamond_pickaxe.webp" alt="diamond pickaxe">10</div>
+            <div id="num-clicks"><img src="../imgs/click.webp" alt="mouse click">0</div>
         </div>
-    </div>
 
+    </div>
+    <script src="../script/index.js"></script>
 </body>
 
 </html>

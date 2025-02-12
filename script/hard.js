@@ -1,18 +1,18 @@
-let mines = 10;
+let mines = 20;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
 let clickCount = 0; // Variable to track the number of clicks
 
-let board = Array(10)
+let board = Array(20)
   .fill(0)
-  .map(() => Array(10).fill(0));
-let revealed = Array(10)
+  .map(() => Array(20).fill(0));
+let revealed = Array(20)
   .fill(0)
-  .map(() => Array(10).fill(false));
-let flagged = Array(10)
+  .map(() => Array(20).fill(false));
+let flagged = Array(20)
   .fill(0)
-  .map(() => Array(10).fill(false));
+  .map(() => Array(20).fill(false));
 let gameOver = false; // Variable to track game over state
 
 // Function to update the info section
@@ -30,7 +30,7 @@ function updateInfo() {
 
 //Stopwatch variables
 
-// A function that creates the board 10x10
+// A function that creates the board 20x20
 function createBoard() {
   const gameBoard = document.getElementById("game-board");
   if (!gameBoard) {
@@ -39,8 +39,8 @@ function createBoard() {
   }
   gameBoard.innerHTML = "";
 
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.style.backgroundImage = "url('../imgs/grass.webp')";
@@ -58,8 +58,8 @@ function createBoard() {
 function placeMines() {
   let placedMines = 0;
   while (placedMines < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
+    let row = Math.floor(Math.random() * 0);
+    let col = Math.floor(Math.random() * 20);
     if (board[row][col] === 0) {
       board[row][col] = 1; // Place a mine
       placedMines++;
@@ -105,8 +105,8 @@ function handleCellClick(event) {
 function placeMinesAfterFirstClick(firstRow, firstCol) {
   let minesPlaced = 0;
   while (minesPlaced < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
+    let row = Math.floor(Math.random() * 20);
+    let col = Math.floor(Math.random() * 20);
     if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
       board[row][col] = "M";
       minesPlaced++;
@@ -116,13 +116,13 @@ function placeMinesAfterFirstClick(firstRow, firstCol) {
 
 // Function to count mines around each cell
 function countMines() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
       if (board[i][j] !== "M") {
         let mineCount = 0;
         for (let x = -1; x <= 1; x++) {
           for (let y = -1; y <= 1; y++) {
-            if (i + x >= 0 && i + x < 10 && j + y >= 0 && j + y < 10) {
+            if (i + x >= 0 && i + x < 20 && j + y >= 0 && j + y < 20) {
               if (board[i + x][j + y] === "M") {
                 mineCount++;
               }
@@ -182,9 +182,9 @@ function toggleFlag(row, col) {
 function revealCell(row, col) {
   if (
     row < 0 ||
-    row >= 10 ||
+    row >= 20 ||
     col < 0 ||
-    col >= 10 ||
+    col >= 20 ||
     revealed[row][col] ||
     flagged[row][col]
   ) {
@@ -203,8 +203,8 @@ function revealCell(row, col) {
     // Reveal all mines one by one
     let mineIndex = 0;
     const mines = [];
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 10; c++) {
+    for (let r = 0; r < 20; r++) {
+      for (let c = 0; c < 20; c++) {
         if (board[r][c] === "M" && !(r === row && c === col)) {
           mines.push({ r, c });
         }
@@ -220,16 +220,8 @@ function revealCell(row, col) {
         mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
         mineCell.style.backgroundSize = "cover";
         mineCell.style.backgroundRepeat = "no-repeat";
-        revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
-      } else {
-        // Check if all mines are revealed after the last mine is shown
-        setTimeout(() => {
-          if (checkAllMinesRevealed()) {
-            window.location.href = "../html/youLose.html"; // Redirect to youLose.html
-          }
-        }, 500); // Delay to ensure the last mine is shown before checking
       }
     };
 
@@ -251,8 +243,8 @@ function revealCell(row, col) {
 
 // Function to check if the player has won
 function youWin() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
@@ -264,15 +256,15 @@ function youWin() {
 
 // Initialize the game
 function initGame() {
-  board = Array(10)
+  board = Array(20)
     .fill(0)
-    .map(() => Array(10).fill(0));
-  revealed = Array(10)
+    .map(() => Array(20).fill(0));
+  revealed = Array(20)
     .fill(0)
-    .map(() => Array(10).fill(false));
-  flagged = Array(10)
+    .map(() => Array(20).fill(false));
+  flagged = Array(20)
     .fill(0)
-    .map(() => Array(10).fill(false));
+    .map(() => Array(20).fill(false));
   remainingFlags = mines; // Reset the number of remaining flags
   clickCount = 0; // Reset click count
   gameOver = false; // Reset game over state
@@ -290,8 +282,8 @@ function resetGame() {
   gameOver = false;
 
   // Clear the board
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
       board[i][j] = 0;
       revealed[i][j] = false;
       flagged[i][j] = false;
