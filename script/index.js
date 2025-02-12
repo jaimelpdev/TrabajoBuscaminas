@@ -28,6 +28,15 @@ function updateInfo() {
   ).innerHTML = `<img src="../imgs/click.webp" alt="mouse click">${clickCount}`;
 }
 
+document.getElementById("datatoggle").addEventListener("click", function () {
+  const infoElement = document.getElementById("info");
+  if (infoElement.style.display === "none" || infoElement.style.display === "") {
+    infoElement.style.display = "flex";
+  } else {
+    infoElement.style.display = "none";
+  }
+});
+
 //Stopwatch variables
 
 // A function that creates the board 10x10
