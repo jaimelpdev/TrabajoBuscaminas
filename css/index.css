@@ -145,8 +145,8 @@ h1 {
   width: 19rem;
   height: 23rem;
   background-image: url("../imgs/book.webp");
-  display: flex;
-  flex-direction: column; /* Align elements in column */
+  display: none;
+    flex-direction: column; /* Align elements in column */
   justify-content: center;
   align-items: center;
   margin-top: 2rem;
