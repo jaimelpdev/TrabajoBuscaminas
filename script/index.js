@@ -1,4 +1,4 @@
-let mines = 10;
+let mines = 50;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -14,6 +14,28 @@ let flagged = Array(10)
   .fill(0)
   .map(() => Array(10).fill(false));
 let gameOver = false; // Variable to track game over state
+
+// Modes section
+document.getElementById("enchantedbook").addEventListener("click", function () {
+  const modesElement = document.getElementById("modes");
+  if (modesElement.classList.contains("show")) {
+    modesElement.classList.remove("show");
+  } else {
+    modesElement.classList.add("show");
+  }
+});
+
+let gameMode = "normal"; // Variable to track the current game mode
+
+document.getElementById("first-click").addEventListener("click", function () {
+  gameMode = "first-click";
+  resetGame();
+});
+
+document.getElementById("one-life").addEventListener("click", function () {
+  gameMode = "one-life";
+  resetGame();
+});
 
 // Function to update the info section
 function updateInfo() {
@@ -98,13 +120,27 @@ function createBoard() {
 
 // Function to place mines
 function placeMines() {
-  let placedMines = 0;
-  while (placedMines < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
-    if (board[row][col] === 0) {
-      board[row][col] = 1; // Place a mine
-      placedMines++;
+  if (gameMode === "one-life") {
+    let freeCell = {
+      row: Math.floor(Math.random() * 10),
+      col: Math.floor(Math.random() * 10),
+    };
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (i !== freeCell.row || j !== freeCell.col) {
+          board[i][j] = "M"; // Place a mine
+        }
+      }
+    }
+  } else {
+    let placedMines = 0;
+    while (placedMines < mines) {
+      let row = Math.floor(Math.random() * 10);
+      let col = Math.floor(Math.random() * 10);
+      if (board[row][col] === 0) {
+        board[row][col] = "M"; // Place a mine
+        placedMines++;
+      }
     }
   }
 }
@@ -116,12 +152,20 @@ function handleCellClick(event) {
 
   if (firstClick) {
     firstClick = false;
-    if (board[row][col] === "M") {
-      board[row][col] = 0;
-      placeMines();
-      while (board[row][col] === "M") {
+    if (gameMode === "first-click") {
+      if (board[row][col] === "M") {
+        revealCell(row, col);
+        gameOver = true;
+        return;
+      }
+    } else {
+      if (board[row][col] === "M") {
         board[row][col] = 0;
         placeMines();
+        while (board[row][col] === "M") {
+          board[row][col] = 0;
+          placeMines();
+        }
       }
     }
   }

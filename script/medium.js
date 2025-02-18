@@ -1,4 +1,4 @@
-let mines = 16;
+let mines = 2;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
