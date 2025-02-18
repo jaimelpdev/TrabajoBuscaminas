@@ -224,7 +224,6 @@ function countMines() {
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
-  event.preventDefault();
   if (gameOver) return; // Prevent right-clicks if game is over
   const row = parseInt(event.target.dataset.row);
   const col = parseInt(event.target.dataset.col);
@@ -285,7 +284,6 @@ function revealCell(row, col) {
     cell.style.backgroundImage = "none"; // Remove the grass image
     cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
     cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
-    cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
 
     // Reveal all mines one by one
     let mineIndex = 0;
@@ -328,39 +326,6 @@ function revealCell(row, col) {
   }
 }
 
-// Function to check if the player has won
-function youWin() {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      if (board[i][j] === "M" && !flagged[i][j]) {
-        return false; // If any mine is not flagged, the player hasn't won yet
-      }
-    }
-  }
-  window.location.href = "youWin.html"; // Redirect to youWin.html
-  return true; // All mines are flagged
-}
-
-// Initialize the game
-function initGame() {
-  board = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(0));
-  revealed = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(false));
-  flagged = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(false));
-  remainingFlags = mines; // Reset the number of remaining flags
-  clickCount = 0; // Reset click count
-  gameOver = false; // Reset game over state
-  createBoard();
-  placeMines();
-  countMines();
-  updateInfo(); // Update info section
-}
-
 // Function to reset the game
 function resetGame() {
   // Reset game variables
@@ -388,46 +353,24 @@ function resetGame() {
   updateInfo(); // Update info section
 }
 
-// Add event listener to the reset button
-document.getElementById("reset-game").addEventListener("click", resetGame);
-
-// Call the function to initialize the game
-window.onload = initGame;
-
-//Modal
-function initializeRulesModal() {
-  // Get elements
-  const rulesButton = document.getElementById("question");
-  const rulesModal = document.getElementById("rulesModal");
-  const closeModal = document.getElementById("closeModal");
-
-  // Show modal when button is clicked
-  rulesButton.addEventListener("click", () => {
-    rulesModal.style.display = "flex";
-  });
-
-  // Close modal when "Close" button is clicked
-  closeModal.addEventListener("click", () => {
-    rulesModal.style.display = "none";
-  });
-
-  // Close modal when clicking outside the modal content
-  window.addEventListener("click", (event) => {
-    if (event.target === rulesModal) {
-      rulesModal.style.display = "none";
-    }
-  });
+// Initialize the game
+function initGame() {
+  board = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(0));
+  revealed = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(false));
+  flagged = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(false));
+  remainingFlags = mines; // Reset the number of remaining flags
+  clickCount = 0; // Reset click count
+  gameOver = false; // Reset game over state
+  createBoard();
+  placeMines();
+  countMines();
+  updateInfo(); // Update info section
 }
 
-// Initialize the modal functionality when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", initializeRulesModal);
-
-//End Modal
-
-// Manage difficulty selection
-document
-  .getElementById("difficulty-select")
-  .addEventListener("change", function () {
-    const selectedValue = this.value;
-    window.location.href = selectedValue;
-  });
+document.addEventListener("DOMContentLoaded", initGame);
