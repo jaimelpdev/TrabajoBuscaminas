@@ -110,11 +110,14 @@ function createBoard() {
 // Function to place mines
 function placeMines() {
   let placedMines = 0;
-  while (placedMines < mines) {
+  const totalCells = 10 * 10;
+  const minesToPlace = totalCells - 1; // Dejar solo una casilla vacía
+
+  while (placedMines < minesToPlace) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
     if (board[row][col] === 0) {
-      board[row][col] = 1; // Place a mine
+      board[row][col] = "M"; // Colocar una mina
       placedMines++;
     }
   }
@@ -137,12 +140,6 @@ function handleCellClick(event) {
     }
   }
 
-  if (!minesPlaced) {
-    placeMinesAfterFirstClick(row, col);
-    countMines();
-    minesPlaced = true;
-  }
-
   if (gameOver) return; // Prevent clicks if game is over
   if (!flagged[row][col]) {
     revealCell(row, col);
@@ -150,19 +147,6 @@ function handleCellClick(event) {
     updateInfo(); // Update info section
     if (checkWin()) {
       gameOver = true;
-    }
-  }
-}
-
-// Function to place mines after the first click
-function placeMinesAfterFirstClick(firstRow, firstCol) {
-  let minesPlaced = 0;
-  while (minesPlaced < mines) {
-    let row = Math.floor(Math.random() * 10);
-    let col = Math.floor(Math.random() * 10);
-    if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
-      board[row][col] = "M";
-      minesPlaced++;
     }
   }
 }

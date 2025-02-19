@@ -1,4 +1,4 @@
-let mines = 10;
+let mines = 50;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -127,27 +127,16 @@ function handleCellClick(event) {
 
   if (firstClick) {
     firstClick = false;
-    if (board[row][col] === "M") {
-      board[row][col] = 0;
-      placeMines();
-      while (board[row][col] === "M") {
-        board[row][col] = 0;
-        placeMines();
-      }
-    }
-  }
-
-  if (!minesPlaced) {
     placeMinesAfterFirstClick(row, col);
     countMines();
     minesPlaced = true;
   }
 
-  if (gameOver) return; // Prevent clicks if game is over
+  if (gameOver) return; // Prevenir clicks si el juego ha terminado
   if (!flagged[row][col]) {
     revealCell(row, col);
-    clickCount++; // Increment click count
-    updateInfo(); // Update info section
+    clickCount++; // Incrementar el contador de clicks
+    updateInfo(); // Actualizar la sección de información
     if (checkWin()) {
       gameOver = true;
     }
@@ -160,7 +149,7 @@ function placeMinesAfterFirstClick(firstRow, firstCol) {
   while (minesPlaced < mines) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
-    if (board[row][col] === 0 && !isAdjacent(firstRow, firstCol, row, col)) {
+    if (board[row][col] === 0) {
       board[row][col] = "M";
       minesPlaced++;
     }
