@@ -28,18 +28,6 @@ function updateInfo() {
   ).innerHTML = `<img src="../imgs/click.webp" alt="mouse click">${clickCount}`;
 }
 
-document.getElementById("datatoggle").addEventListener("click", function () {
-  const infoElement = document.getElementById("info");
-  if (
-    infoElement.style.display === "none" ||
-    infoElement.style.display === ""
-  ) {
-    infoElement.style.display = "flex";
-  } else {
-    infoElement.style.display = "none";
-  }
-});
-
 //Stopwatch variables
 let timerInterval;
 let timerRunning = false;
@@ -100,7 +88,7 @@ function createBoard() {
 function placeMines() {
   let placedMines = 0;
   while (placedMines < mines) {
-    let row = Math.floor(Math.random() * 20);
+    let row = Math.floor(Math.random() * 0);
     let col = Math.floor(Math.random() * 20);
     if (board[row][col] === 0) {
       board[row][col] = 1; // Place a mine
@@ -220,17 +208,17 @@ function toggleFlag(row, col) {
   updateInfo(); // Update info section
 }
 
-function checkAllMinesRevealed() {
-  for (let i = 0; i < 20; i++) {
-    for (let j = 0; j < 20; j++) {
-      if (board[i][j] === "M" && !revealed[i][j]) {
-        return false;
-      }
-    }
+document.getElementById("datatoggle").addEventListener("click", function () {
+  const infoElement = document.getElementById("info");
+  if (
+    infoElement.style.display === "none" ||
+    infoElement.style.display === ""
+  ) {
+    infoElement.style.display = "flex";
+  } else {
+    infoElement.style.display = "none";
   }
-  return true;
-  updateInfo(); // Update info section
-}
+});
 
 // Function to reveal a cell
 function revealCell(row, col) {
@@ -275,16 +263,8 @@ function revealCell(row, col) {
         mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
         mineCell.style.backgroundSize = "cover";
         mineCell.style.backgroundRepeat = "no-repeat";
-        revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
-      } else {
-        // Check if all mines are revealed after the last mine is shown
-        setTimeout(() => {
-          if (checkAllMinesRevealed()) {
-            window.location.href = "../html/youLose.html"; // Redirect to youLose.html
-          }
-        }, 500); // Delay to ensure the last mine is shown before checking
       }
     };
 
@@ -311,13 +291,10 @@ function youWin() {
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
-      if (board[i][j] !== "M" && !revealed[i][j]) {
-        return false; // If any non-mine cell is not revealed, the player hasn't won yet
-      }
     }
   }
   window.location.href = "youWin.html"; // Redirect to youWin.html
-  return true; // All mines are flagged and all non-mine cells are revealed
+  return true; // All mines are flagged
 }
 
 // Initialize the game
