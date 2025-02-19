@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   background-image: url("../imgs/background.webp");
   background-repeat: no-repeat;
@@ -31,8 +32,7 @@ h1 {
 #reset-game,
 #timertoggle,
 #question,
-#datatoggle,
-#enchantedbook {
+#datatoggle {
   width: 3rem;
 }
 
