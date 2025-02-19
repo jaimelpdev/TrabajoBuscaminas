@@ -47,8 +47,8 @@ h1 {
 
 #game-board {
   display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(16, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
   margin: 1rem 0;
   background-image: url("../imgs/grass.webp");
   background-size: 10% 10%;

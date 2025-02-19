@@ -1,4 +1,4 @@
-let mines = 50;
+let mines = 10;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -15,7 +15,7 @@ let flagged = Array(10)
   .map(() => Array(10).fill(false));
 let gameOver = false; // Variable to track game over state
 
-// Modes section
+// Modes Section
 document.getElementById("enchantedbook").addEventListener("click", function () {
   const modesElement = document.getElementById("modes");
   if (modesElement.classList.contains("show")) {
@@ -25,16 +25,24 @@ document.getElementById("enchantedbook").addEventListener("click", function () {
   }
 });
 
-let gameMode = "normal"; // Variable to track the current game mode
+document.addEventListener("DOMContentLoaded", function () {
+  // Add event listeners to mode buttons
+  const firstClickButton = document.getElementById("first-click");
+  const oneLifeButton = document.getElementById("one-life");
 
-document.getElementById("first-click").addEventListener("click", function () {
-  gameMode = "first-click";
-  resetGame();
-});
+  if (firstClickButton) {
+    firstClickButton.addEventListener("click", function () {
+      const url = this.getAttribute("data-url");
+      window.location.href = url;
+    });
+  }
 
-document.getElementById("one-life").addEventListener("click", function () {
-  gameMode = "one-life";
-  resetGame();
+  if (oneLifeButton) {
+    oneLifeButton.addEventListener("click", function () {
+      const url = this.getAttribute("data-url");
+      window.location.href = url;
+    });
+  }
 });
 
 // Function to update the info section
@@ -61,6 +69,7 @@ document.getElementById("datatoggle").addEventListener("click", function () {
     infoElement.style.display = "none";
   }
 });
+43;
 
 //Stopwatch variables
 let timerInterval;
@@ -120,27 +129,13 @@ function createBoard() {
 
 // Function to place mines
 function placeMines() {
-  if (gameMode === "one-life") {
-    let freeCell = {
-      row: Math.floor(Math.random() * 10),
-      col: Math.floor(Math.random() * 10),
-    };
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
-        if (i !== freeCell.row || j !== freeCell.col) {
-          board[i][j] = "M"; // Place a mine
-        }
-      }
-    }
-  } else {
-    let placedMines = 0;
-    while (placedMines < mines) {
-      let row = Math.floor(Math.random() * 10);
-      let col = Math.floor(Math.random() * 10);
-      if (board[row][col] === 0) {
-        board[row][col] = "M"; // Place a mine
-        placedMines++;
-      }
+  let placedMines = 0;
+  while (placedMines < mines) {
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    if (board[row][col] === 0) {
+      board[row][col] = 1; // Place a mine
+      placedMines++;
     }
   }
 }
@@ -152,20 +147,12 @@ function handleCellClick(event) {
 
   if (firstClick) {
     firstClick = false;
-    if (gameMode === "first-click") {
-      if (board[row][col] === "M") {
-        revealCell(row, col);
-        gameOver = true;
-        return;
-      }
-    } else {
-      if (board[row][col] === "M") {
+    if (board[row][col] === "M") {
+      board[row][col] = 0;
+      placeMines();
+      while (board[row][col] === "M") {
         board[row][col] = 0;
         placeMines();
-        while (board[row][col] === "M") {
-          board[row][col] = 0;
-          placeMines();
-        }
       }
     }
   }
@@ -224,6 +211,7 @@ function countMines() {
 // Function to handle cell right-click (to place/remove flags)
 function handleCellRightClick(event) {
   event.preventDefault();
+  event.preventDefault();
   if (gameOver) return; // Prevent right-clicks if game is over
   const row = parseInt(event.target.dataset.row);
   const col = parseInt(event.target.dataset.col);
@@ -242,9 +230,6 @@ function toggleFlag(row, col) {
   if (flagged[row][col]) {
     flagged[row][col] = false;
     remainingFlags++;
-    if (board[row][col] === "M") {
-      mines++; // Increment mines if flag is removed from a mine
-    }
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   } else {
     if (remainingFlags > 0) {
@@ -296,6 +281,7 @@ function revealCell(row, col) {
     cell.style.backgroundImage = "none"; // Remove the grass image
     cell.style.backgroundImage = "url('../imgs/tntoverstone.webp')"; // Set the TNT image over the stone
     cell.style.backgroundSize = "cover"; // Ensure the image covers the cell
+    cell.style.backgroundRepeat = "no-repeat"; // Ensure the image does not repeat
 
     // Reveal all mines one by one
     let mineIndex = 0;
@@ -409,24 +395,46 @@ function resetGame() {
   updateInfo(); // Update info section
 }
 
-// Initialize the game
-function initGame() {
-  board = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(0));
-  revealed = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(false));
-  flagged = Array(10)
-    .fill(0)
-    .map(() => Array(10).fill(false));
-  remainingFlags = mines; // Reset the number of remaining flags
-  clickCount = 0; // Reset click count
-  gameOver = false; // Reset game over state
-  createBoard();
-  placeMines();
-  countMines();
-  updateInfo(); // Update info section
+// Add event listener to the reset button
+document.getElementById("reset-game").addEventListener("click", resetGame);
+
+// Call the function to initialize the game
+window.onload = initGame;
+
+//Modal
+function initializeRulesModal() {
+  // Get elements
+  const rulesButton = document.getElementById("question");
+  const rulesModal = document.getElementById("rulesModal");
+  const closeModal = document.getElementById("closeModal");
+
+  // Show modal when button is clicked
+  rulesButton.addEventListener("click", () => {
+    rulesModal.style.display = "flex";
+  });
+
+  // Close modal when "Close" button is clicked
+  closeModal.addEventListener("click", () => {
+    rulesModal.style.display = "none";
+  });
+
+  // Close modal when clicking outside the modal content
+  window.addEventListener("click", (event) => {
+    if (event.target === rulesModal) {
+      rulesModal.style.display = "none";
+    }
+  });
 }
 
-document.addEventListener("DOMContentLoaded", initGame);
+// Initialize the modal functionality when the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", initializeRulesModal);
+
+//End Modal
+
+// Manage difficulty selection
+document
+  .getElementById("difficulty-select")
+  .addEventListener("change", function () {
+    const selectedValue = this.value;
+    window.location.href = selectedValue;
+  });

@@ -1,4 +1,4 @@
-let mines = 2;
+let mines = 16;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -14,6 +14,36 @@ let flagged = Array(16)
   .fill(0)
   .map(() => Array(16).fill(false));
 let gameOver = false; // Variable to track game over state
+
+// Modes Section
+document.getElementById("enchantedbook").addEventListener("click", function () {
+  const modesElement = document.getElementById("modes");
+  if (modesElement.classList.contains("show")) {
+    modesElement.classList.remove("show");
+  } else {
+    modesElement.classList.add("show");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Add event listeners to mode buttons
+  const firstClickButton = document.getElementById("first-click");
+  const oneLifeButton = document.getElementById("one-life");
+
+  if (firstClickButton) {
+    firstClickButton.addEventListener("click", function () {
+      const url = this.getAttribute("data-url");
+      window.location.href = url;
+    });
+  }
+
+  if (oneLifeButton) {
+    oneLifeButton.addEventListener("click", function () {
+      const url = this.getAttribute("data-url");
+      window.location.href = url;
+    });
+  }
+});
 
 // Function to update the info section
 function updateInfo() {
@@ -39,6 +69,7 @@ document.getElementById("datatoggle").addEventListener("click", function () {
     infoElement.style.display = "none";
   }
 });
+43;
 
 //Stopwatch variables
 let timerInterval;
@@ -199,9 +230,6 @@ function toggleFlag(row, col) {
   if (flagged[row][col]) {
     flagged[row][col] = false;
     remainingFlags++;
-    if (board[row][col] === "M") {
-      mines++; // Increment mines if flag is removed from a mine
-    }
     cell.style.backgroundImage = "url('../imgs/grass.webp')";
   } else {
     if (remainingFlags > 0) {
@@ -217,6 +245,18 @@ function toggleFlag(row, col) {
       console.log("No remaining flags available.");
     }
   }
+  updateInfo(); // Update info section
+}
+
+function checkAllMinesRevealed() {
+  for (let i = 0; i < 16; i++) {
+    for (let j = 0; j < 16; j++) {
+      if (board[i][j] === "M" && !revealed[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
   updateInfo(); // Update info section
 }
 
@@ -263,8 +303,16 @@ function revealCell(row, col) {
         mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
         mineCell.style.backgroundSize = "cover";
         mineCell.style.backgroundRepeat = "no-repeat";
+        revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
+      } else {
+        // Check if all mines are revealed after the last mine is shown
+        setTimeout(() => {
+          if (checkAllMinesRevealed()) {
+            window.location.href = "../html/youLose.html"; // Redirect to youLose.html
+          }
+        }, 500); // Delay to ensure the last mine is shown before checking
       }
     };
 
@@ -291,10 +339,13 @@ function youWin() {
       if (board[i][j] === "M" && !flagged[i][j]) {
         return false; // If any mine is not flagged, the player hasn't won yet
       }
+      if (board[i][j] !== "M" && !revealed[i][j]) {
+        return false; // If any non-mine cell is not revealed, the player hasn't won yet
+      }
     }
   }
   window.location.href = "youWin.html"; // Redirect to youWin.html
-  return true; // All mines are flagged
+  return true; // All mines are flagged and all non-mine cells are revealed
 }
 
 // Initialize the game

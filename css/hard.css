@@ -32,7 +32,8 @@ h1 {
 #reset-game,
 #timertoggle,
 #question,
-#datatoggle {
+#datatoggle,
+#enchantedbook {
   width: 3rem;
 }
 
@@ -51,12 +52,18 @@ h1 {
   margin: 1rem 0;
   background-image: url("../imgs/grass.webp");
   background-size: 10% 10%;
-  margin-right: 2rem;
+  margin-right: 20rem;
+}
+
+#game-board-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .cell {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 67px;
+  height: 67px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,14 +112,14 @@ h1 {
 }
 
 #game-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 700px;
   padding: 1rem;
   background-color: rgba(112, 149, 173, 0.8);
   border-radius: 8px;
-  display: flex;
-  justify-content: space-between; /* Distribute space between elements */
-  align-items: center; /* Align items vertically */
   margin-bottom: 1rem;
   position: relative;
 }
@@ -178,4 +185,53 @@ h1 {
   border: 1px solid #000000;
   width: 10rem;
   height: 4rem;
+}
+
+#modes {
+  visibility: hidden; /* Hide by default */
+  opacity: 0; /* Make it invisible */
+  width: 19rem;
+  height: 23rem;
+  background-image: url("../imgs/book.webp");
+  background-size: cover; /* Ensure the background image covers the element */
+  background-position: center; /* Center the background image */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 10px; /* Add rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* Add transition to smooth the change */
+}
+
+#modes.show {
+  visibility: visible; /* Show the element */
+  opacity: 1; /* Make it visible */
+}
+
+#modes-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#modes button {
+  width: 80%;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem 0;
+  margin-left: 1.8rem;
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Add rounded corners to buttons */
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Add transition for background color */
+}
+
+#modes button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
 }
