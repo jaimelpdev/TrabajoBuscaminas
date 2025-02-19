@@ -1,4 +1,4 @@
-let mines = 10;
+let mines = 99;
 let remainingFlags = mines;
 let minesPlaced = false;
 let firstClick = true; // Variable to track the first click
@@ -110,14 +110,11 @@ function createBoard() {
 // Function to place mines
 function placeMines() {
   let placedMines = 0;
-  const totalCells = 10 * 10;
-  const minesToPlace = totalCells - 1; // Dejar solo una casilla vacía
-
-  while (placedMines < minesToPlace) {
+  while (placedMines < mines) {
     let row = Math.floor(Math.random() * 10);
     let col = Math.floor(Math.random() * 10);
     if (board[row][col] === 0) {
-      board[row][col] = "M"; // Colocar una mina
+      board[row][col] = 1; // Place a mine
       placedMines++;
     }
   }
@@ -130,23 +127,31 @@ function handleCellClick(event) {
 
   if (firstClick) {
     firstClick = false;
-    if (board[row][col] === "M") {
-      board[row][col] = 0;
-      placeMines();
-      while (board[row][col] === "M") {
-        board[row][col] = 0;
-        placeMines();
-      }
-    }
+    placeMinesAfterFirstClick(row, col);
+    countMines();
+    minesPlaced = true;
   }
 
-  if (gameOver) return; // Prevent clicks if game is over
+  if (gameOver) return; // Prevenir clicks si el juego ha terminado
   if (!flagged[row][col]) {
     revealCell(row, col);
-    clickCount++; // Increment click count
-    updateInfo(); // Update info section
+    clickCount++; // Incrementar el contador de clicks
+    updateInfo(); // Actualizar la sección de información
     if (checkWin()) {
       gameOver = true;
+    }
+  }
+}
+
+// Function to place mines after the first click
+function placeMinesAfterFirstClick(firstRow, firstCol) {
+  let minesPlaced = 0;
+  while (minesPlaced < mines) {
+    let row = Math.floor(Math.random() * 10);
+    let col = Math.floor(Math.random() * 10);
+    if (board[row][col] === 0) {
+      board[row][col] = "M";
+      minesPlaced++;
     }
   }
 }
@@ -269,7 +274,7 @@ function revealCell(row, col) {
         mineCell.style.backgroundRepeat = "no-repeat";
         revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
-        setTimeout(revealNextMine, 500); // Delay between revealing each mine
+        setTimeout(revealNextMine, 100); // Delay between revealing each mine
       } else {
         // Check if all mines are revealed after the last mine is shown
         setTimeout(() => {
@@ -395,7 +400,7 @@ document.addEventListener("DOMContentLoaded", initializeRulesModal);
 
 //End Modal
 
-// Manage difficulty selection
+// Manage difficulty and modes selection
 document
   .getElementById("difficulty-select")
   .addEventListener("change", function () {
