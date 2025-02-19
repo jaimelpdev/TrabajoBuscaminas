@@ -263,6 +263,18 @@ function toggleFlag(row, col) {
   updateInfo(); // Update info section
 }
 
+function checkAllMinesRevealed() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] === "M" && !revealed[i][j]) {
+        return false;
+      }
+    }
+  }
+  return true;
+  updateInfo(); // Update info section
+}
+
 // Function to reveal a cell
 function revealCell(row, col) {
   if (
@@ -305,8 +317,16 @@ function revealCell(row, col) {
         mineCell.style.backgroundImage = "url('../imgs/tntoverstone.webp')";
         mineCell.style.backgroundSize = "cover";
         mineCell.style.backgroundRepeat = "no-repeat";
+        revealed[r][c] = true; // Mark the mine as revealed
         mineIndex++;
         setTimeout(revealNextMine, 500); // Delay between revealing each mine
+      } else {
+        // Check if all mines are revealed after the last mine is shown
+        setTimeout(() => {
+          if (checkAllMinesRevealed()) {
+            window.location.href = "../html/youLose.html"; // Redirect to youLose.html
+          }
+        }, 500); // Delay to ensure the last mine is shown before checking
       }
     };
 
@@ -324,6 +344,42 @@ function revealCell(row, col) {
       }
     }
   }
+}
+
+// Function to check if the player has won
+function youWin() {
+  for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
+      if (board[i][j] === "M" && !flagged[i][j]) {
+        return false; // If any mine is not flagged, the player hasn't won yet
+      }
+      if (board[i][j] !== "M" && !revealed[i][j]) {
+        return false; // If any non-mine cell is not revealed, the player hasn't won yet
+      }
+    }
+  }
+  window.location.href = "youWin.html"; // Redirect to youWin.html
+  return true; // All mines are flagged and all non-mine cells are revealed
+}
+
+// Initialize the game
+function initGame() {
+  board = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(0));
+  revealed = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(false));
+  flagged = Array(10)
+    .fill(0)
+    .map(() => Array(10).fill(false));
+  remainingFlags = mines; // Reset the number of remaining flags
+  clickCount = 0; // Reset click count
+  gameOver = false; // Reset game over state
+  createBoard();
+  placeMines();
+  countMines();
+  updateInfo(); // Update info section
 }
 
 // Function to reset the game

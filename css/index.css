@@ -32,7 +32,8 @@ h1 {
 #reset-game,
 #timertoggle,
 #question,
-#datatoggle {
+#datatoggle,
+#enchantedbook {
   width: 3rem;
 }
 
